@@ -1,0 +1,2188 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>认养一棵樱桃树 | 杨家东庄村</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ==================== CSS Variables ==================== */
+        :root {
+            /* 主色调 */
+            --cherry-red: #C41E3A;
+            --cherry-red-light: #E63950;
+            --cherry-red-dark: #9B1B30;
+            --forest-green: #2D5016;
+            --forest-green-light: #4A7C23;
+            --forest-green-dark: #1A3009;
+            --cream: #FDF8F0;
+            --cream-dark: #F5EDE0;
+            --warm-white: #FFFBF5;
+            
+            /* 中性色 */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-light: #8A8A8A;
+            --border-color: #E8E0D5;
+            
+            /* 字体 */
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+            
+            /* 间距 */
+            --section-padding: clamp(60px, 10vw, 120px);
+            --container-width: 1200px;
+            
+            /* 动效 */
+            --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ==================== Reset & Base ==================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            background-color: var(--cream);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        /* ==================== Utility Classes ==================== */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-label {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--cherry-red);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .section-title {
+            font-family: var(--font-serif);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+            margin-bottom: 20px;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.9;
+        }
+
+        /* 动画类 */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .fade-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .fade-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ==================== Buttons ==================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 36px;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cherry-red) 0%, var(--cherry-red-dark) 100%);
+            color: white;
+            box-shadow: 0 8px 30px rgba(196, 30, 58, 0.35);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(196, 30, 58, 0.45);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--text-primary);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+
+        /* CTA按钮呼吸动效 */
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 8px 30px rgba(196, 30, 58, 0.35);
+            }
+            50% {
+                box-shadow: 0 8px 50px rgba(196, 30, 58, 0.55);
+            }
+        }
+
+        .btn-pulse {
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+
+        /* ==================== Navigation ==================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 20px 0;
+            transition: var(--transition-smooth);
+        }
+
+        .nav.scrolled {
+            background: rgba(253, 248, 240, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.08);
+            padding: 12px 0;
+        }
+
+        .nav-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--forest-green);
+        }
+
+        .nav-logo span {
+            color: var(--cherry-red);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cherry-red);
+            transition: var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--cherry-red);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-cta {
+            padding: 10px 24px;
+            font-size: 0.9rem;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            padding: 5px;
+        }
+
+        .mobile-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        /* ==================== Hero Section ==================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+
+        .hero-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(45, 80, 22, 0.7) 0%,
+                rgba(45, 80, 22, 0.4) 50%,
+                rgba(196, 30, 58, 0.3) 100%
+            );
+            z-index: -1;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            padding: 0 24px;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .hero-badge::before {
+            content: '🌿';
+        }
+
+        .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.2rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 24px;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+
+        .hero-title span {
+            color: var(--cherry-red-light);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            line-height: 1.8;
+            margin-bottom: 48px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .hero-scroll {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: white;
+            opacity: 0.8;
+            font-size: 0.85rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .hero-scroll-icon {
+            width: 24px;
+            height: 40px;
+            border: 2px solid white;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .hero-scroll-icon::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: white;
+            border-radius: 2px;
+            animation: scroll-down 1.5s ease-in-out infinite;
+        }
+
+        @keyframes scroll-down {
+            0%, 100% { opacity: 1; top: 8px; }
+            50% { opacity: 0.5; top: 20px; }
+        }
+
+        /* ==================== Trust Section ==================== */
+        .trust {
+            padding: var(--section-padding) 0;
+            background: var(--warm-white);
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .trust-image {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .trust-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid var(--cherry-red);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .trust-image img {
+            width: 100%;
+            aspect-ratio: 4/3;
+            object-fit: cover;
+        }
+
+        .trust-badge {
+            position: absolute;
+            bottom: 24px;
+            left: 24px;
+            background: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+
+        .trust-badge-year {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cherry-red);
+            font-family: var(--font-serif);
+        }
+
+        .trust-badge-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .trust-content {
+            padding: 20px 0;
+        }
+
+        .trust-content .section-title {
+            margin-bottom: 32px;
+        }
+
+        .trust-story {
+            font-size: 1.05rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+        }
+
+        .trust-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .stat-item {
+            padding: 20px;
+            background: var(--cream);
+            border-radius: 12px;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        }
+
+        .stat-number {
+            font-family: var(--font-serif);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--forest-green);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* ==================== Benefits Section ==================== */
+        .benefits {
+            padding: var(--section-padding) 0;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+        }
+
+        .benefits-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 40px 32px;
+            border-radius: 20px;
+            text-align: center;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cherry-red), var(--forest-green));
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+        }
+
+        .benefit-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .benefit-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: linear-gradient(135deg, var(--cherry-red) 0%, var(--cherry-red-dark) 100%);
+        }
+
+        .benefit-title {
+            font-family: var(--font-serif);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .benefit-desc {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ==================== Tiers Section ==================== */
+        .tiers {
+            padding: var(--section-padding) 0;
+            background: var(--warm-white);
+        }
+
+        .tiers-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .tiers-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .tier-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            transition: var(--transition-smooth);
+            border: 2px solid transparent;
+        }
+
+        .tier-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .tier-card.featured {
+            border-color: var(--cherry-red);
+            transform: scale(1.05);
+            box-shadow: 0 20px 60px rgba(196, 30, 58, 0.15);
+        }
+
+        .tier-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
+        }
+
+        .tier-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--cherry-red) 0%, var(--cherry-red-dark) 100%);
+            color: white;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .tier-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .tier-name {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .tier-tagline {
+            font-size: 0.95rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+
+        .tier-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 32px;
+        }
+
+        .tier-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .tier-features li:last-child {
+            border-bottom: none;
+        }
+
+        .tier-features li::before {
+            content: '✓';
+            color: var(--forest-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .tier-card .btn {
+            width: 100%;
+        }
+
+        /* ==================== Seasons Section ==================== */
+        .seasons {
+            padding: var(--section-padding) 0;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--warm-white) 100%);
+        }
+
+        .seasons-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .season-card {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .season-card:nth-child(even) {
+            margin-top: 60px;
+        }
+
+        .season-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .season-image img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            transition: var(--transition-smooth);
+        }
+
+        .season-card:hover .season-image img {
+            transform: scale(1.1);
+        }
+
+        .season-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 24px;
+            color: white;
+        }
+
+        .season-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 8px;
+        }
+
+        .season-title {
+            font-family: var(--font-serif);
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .season-desc {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .season-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: var(--font-serif);
+            font-size: 4rem;
+            font-weight: 700;
+            color: white;
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        /* ==================== Participation Section ==================== */
+        .participation {
+            padding: var(--section-padding) 0;
+            background: var(--warm-white);
+        }
+
+        .participation-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .participation-showcase {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .participation-preview {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .preview-header {
+            background: linear-gradient(135deg, var(--forest-green) 0%, var(--forest-green-light) 100%);
+            padding: 24px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .preview-avatar {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .preview-info h4 {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            margin-bottom: 4px;
+        }
+
+        .preview-info p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .preview-body {
+            padding: 32px;
+        }
+
+        .preview-card {
+            background: var(--cream);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .preview-card-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-card-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .preview-card img {
+            width: 100%;
+            aspect-ratio: 16/9;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-top: 12px;
+        }
+
+        .preview-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .preview-feature {
+            background: var(--cream);
+            padding: 16px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .preview-feature-icon {
+            font-size: 1.5rem;
+        }
+
+        .preview-feature-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .participation-content {
+            padding: 20px 0;
+        }
+
+        .participation-content .section-title {
+            margin-bottom: 24px;
+        }
+
+        .participation-intro {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 2;
+            margin-bottom: 40px;
+        }
+
+        .participation-list {
+            list-style: none;
+        }
+
+        .participation-list li {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 1.05rem;
+            transition: var(--transition-smooth);
+        }
+
+        .participation-list li:hover {
+            padding-left: 16px;
+            color: var(--cherry-red);
+        }
+
+        .participation-list li:last-child {
+            border-bottom: none;
+        }
+
+        .participation-list-icon {
+            font-size: 1.5rem;
+        }
+
+        /* ==================== Process Section ==================== */
+        .process {
+            padding: var(--section-padding) 0;
+            background: linear-gradient(180deg, var(--cream) 0%, var(--cream-dark) 100%);
+        }
+
+        .process-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .process-timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 80px;
+            right: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cherry-red), var(--forest-green));
+            z-index: 0;
+        }
+
+        .process-step {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--cherry-red);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: var(--transition-smooth);
+        }
+
+        .process-step:hover .step-number {
+            transform: scale(1.1);
+            background: var(--cherry-red);
+            color: white;
+        }
+
+        .step-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+
+        .step-title {
+            font-family: var(--font-serif);
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            max-width: 180px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* ==================== Testimonials Section ==================== */
+        .testimonials {
+            padding: var(--section-padding) 0;
+            background: var(--warm-white);
+        }
+
+        .testimonials-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--text-primary);
+            line-height: 1.8;
+            margin-bottom: 32px;
+            position: relative;
+            padding-left: 24px;
+            border-left: 3px solid var(--cherry-red);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .author-info h5 {
+            font-family: var(--font-serif);
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .author-info p {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* ==================== CTA Section ==================== */
+        .cta {
+            padding: var(--section-padding) 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-bg {
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+        }
+
+        .cta-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cta-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(45, 80, 22, 0.9) 0%, rgba(196, 30, 58, 0.8) 100%);
+            z-index: -1;
+        }
+
+        .cta-content {
+            text-align: center;
+            color: white;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+
+        .cta-desc {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            margin-bottom: 48px;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ==================== FAQ Section ==================== */
+        .faq {
+            padding: var(--section-padding) 0;
+            background: var(--warm-white);
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            padding: 24px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+        }
+
+        .faq-question:hover {
+            color: var(--cherry-red);
+        }
+
+        .faq-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--cream);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+            background: var(--cherry-red);
+            color: white;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-inner {
+            padding: 0 32px 24px;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.9;
+        }
+
+        /* ==================== Footer ==================== */
+        .footer {
+            background: var(--forest-green-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .footer-brand p {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .footer-links h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            font-size: 0.95rem;
+            opacity: 0.8;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--cherry-red-light);
+        }
+
+        .footer-bottom {
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .footer-tags {
+            display: flex;
+            gap: 12px;
+        }
+
+        .footer-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        /* ==================== Responsive ==================== */
+        @media (max-width: 1024px) {
+            .trust-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .tiers-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
+            .tier-card.featured {
+                transform: none;
+                order: -1;
+            }
+
+            .tier-card.featured:hover {
+                transform: translateY(-10px);
+            }
+
+            .seasons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .participation-showcase {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                text-align: center;
+            }
+
+            .footer-brand p {
+                max-width: 100%;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links, .nav-cta {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .hero-title {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+
+            .seasons-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .season-card:nth-child(even) {
+                margin-top: 0;
+            }
+
+            .process-timeline {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .process-timeline::before {
+                display: none;
+            }
+
+            .preview-features {
+                grid-template-columns: 1fr;
+            }
+
+            .trust-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ==================== Image Placeholder Style ==================== */
+        .img-placeholder {
+            background: linear-gradient(135deg, var(--cream-dark) 0%, var(--border-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- ==================== Navigation ==================== -->
+    <nav class="nav" id="nav">
+        <div class="container nav-inner">
+            <a href="#" class="nav-logo">杨家东庄<span>·</span>樱桃树</a>
+            <ul class="nav-links">
+                <li><a href="#benefits">认养优势</a></li>
+                <li><a href="#tiers">认养级别</a></li>
+                <li><a href="#seasons">樱桃四季</a></li>
+                <li><a href="#process">认养流程</a></li>
+                <li><a href="#faq">常见问题</a></li>
+            </ul>
+            <a href="#cta" class="btn btn-primary nav-cta">立即认养</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ==================== Hero Section ==================== -->
+    <section class="hero" id="hero">
+        <!-- 图片用途说明：Hero横幅大图 - 樱桃园全景 -->
+        <div class="hero-bg">
+            <img src="image1.jpg" alt="杨家东庄樱桃园全景">
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-badge">
+                北京益水青山樱桃种植专业合作社
+            </div>
+            <h1 class="hero-title">
+                在杨家东庄，<br>拥有一棵属于你的<span>樱桃树</span>
+            </h1>
+            <p class="hero-subtitle">
+                从春天开花到夏日结果，你可以亲眼见证它的一生<br>
+                远方的树，故乡的情
+            </p>
+            <div class="hero-buttons">
+                <a href="#tiers" class="btn btn-primary btn-pulse">立即认养</a>
+                <a href="#benefits" class="btn btn-ghost">了解详情</a>
+            </div>
+        </div>
+        <div class="hero-scroll">
+            <div class="hero-scroll-icon"></div>
+            <span>向下滑动</span>
+        </div>
+    </section>
+
+    <!-- ==================== Trust Section ==================== -->
+    <section class="trust" id="trust">
+        <div class="container">
+            <div class="trust-grid">
+                <div class="trust-image fade-in-left">
+                    <!-- 图片用途说明：手捧樱桃特写 -->
+                    <img src="image2.png" alt="手捧新鲜樱桃">
+                    <div class="trust-badge">
+                        <div class="trust-badge-year">2008</div>
+                        <div class="trust-badge-text">合作社成立至今</div>
+                    </div>
+                </div>
+                <div class="trust-content fade-in-right">
+                    <span class="section-label">关于我们</span>
+                    <h2 class="section-title">脚下的土地，是我们的根</h2>
+                    <p class="trust-story">
+                        十六年前，几个土生土长的杨家东庄人，决定用一辈子做一件事——种出让人念念不忘的樱桃。
+                        <br><br>
+                        2008年，我们成立了北京益水青山樱桃种植专业合作社。从最初的几亩地，到如今占地150亩、8000余棵樱桃树的规模，我们始终坚持生态种植，让每一颗樱桃都带着阳光和泥土的味道。
+                        <br><br>
+                        ，带动周边农户一起发展，共同致富。
+                    </p>
+                    <div class="trust-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">150亩</div>
+                            <div class="stat-label">樱桃园规模</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">8000+</div>
+                            <div class="stat-label">棵樱桃树</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">10+</div>
+                            <div class="stat-label">优质品种</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">16年</div>
+                            <div class="stat-label">种植经验</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Benefits Section ==================== -->
+    <section class="benefits" id="benefits">
+        <div class="container">
+            <div class="benefits-header">
+                <span class="section-label">认养优势</span>
+                <h2 class="section-title">不只是一棵树，是一份牵挂</h2>
+                <p class="section-desc">在城市与乡村之间，架起一座桥梁</p>
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🌳</div>
+                    <h3 class="benefit-title">专属命名权</h3>
+                    <p class="benefit-desc">给树起一个属于你的名字，看它带着这份心意在阳光下生长</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">📸</div>
+                    <h3 class="benefit-title">成长可见</h3>
+                    <p class="benefit-desc">定期收到果树的照片和小视频，见证从开花到结果的每一个瞬间</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🍒</div>
+                    <h3 class="benefit-title">新鲜直达</h3>
+                    <p class="benefit-desc">成熟的樱桃直接寄到你手中，带着清晨的露珠和枝头的清香</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">💚</div>
+                    <h3 class="benefit-title">情感连接</h3>
+                    <p class="benefit-desc">在远方有一棵树，就像在故乡有一个牵挂，心有了安放的地方</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🎁</div>
+                    <h3 class="benefit-title">独特礼物</h3>
+                    <p class="benefit-desc">把果树送给父母、爱人或朋友，是一份能吃到的思念</p>
+                </div>
+                <div class="benefit-card fade-in">
+                    <div class="benefit-icon">🏡</div>
+                    <h3 class="benefit-title">乡村体验</h3>
+                    <p class="benefit-desc">抽空来杨家东庄看看你的树，体验采摘的乐趣，感受乡村的宁静</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Tiers Section ==================== -->
+    <section class="tiers" id="tiers">
+        <div class="container">
+            <div class="tiers-header">
+                <span class="section-label">认养级别</span>
+                <h2 class="section-title">选择属于你的方式</h2>
+                <p class="section-desc">每一种级别，都是与樱桃树的一段缘分</p>
+            </div>
+            <div class="tiers-container">
+                <!-- 初心认养 -->
+                <div class="tier-card fade-in">
+                    <div class="tier-icon">🌱</div>
+                    <h3 class="tier-name">初心认养</h3>
+                    <p class="tier-tagline">与树初识，心生欢喜</p>
+                    <ul class="tier-features">
+                        <li>认养一棵樱桃树</li>
+                        <li>专属命名权</li>
+                        <li>每月一次成长报告</li>
+                        <li>季节性樱桃礼盒配送</li>
+                        <li>电子版认养证书</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary">选择这个级别</a>
+                </div>
+                <!-- 成长认养（推荐） -->
+                <div class="tier-card featured fade-in">
+                    <div class="tier-badge">推荐选择</div>
+                    <div class="tier-icon">🌿</div>
+                    <h3 class="tier-name">成长认养</h3>
+                    <p class="tier-tagline">深度陪伴，共同成长</p>
+                    <ul class="tier-features">
+                        <li>认养一到两棵樱桃树</li>
+                        <li>专属命名权</li>
+                        <li>每周成长更新</li>
+                        <li>优先采摘权</li>
+                        <li>定制礼盒配送到家</li>
+                        <li>线下体验邀请</li>
+                        <li>实体认养证书</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">选择这个级别</a>
+                </div>
+                <!-- 臻享认养 -->
+                <div class="tier-card fade-in">
+                    <div class="tier-icon">🏆</div>
+                    <h3 class="tier-name">臻享认养</h3>
+                    <p class="tier-tagline">专属果园，尊享体验</p>
+                    <ul class="tier-features">
+                        <li>认养多棵樱桃树</li>
+                        <li>专属命名权</li>
+                        <li>实时视频监控</li>
+                        <li>全程优先采摘权</li>
+                        <li>定制礼盒无限次配送</li>
+                        <li>专属线下体验</li>
+                        <li>品牌联名证书</li>
+                        <li>专属客服服务</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary">选择这个级别</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Seasons Section ==================== -->
+    <section class="seasons" id="seasons">
+        <div class="container">
+            <div class="seasons-header">
+                <span class="section-label">樱桃四季</span>
+                <h2 class="section-title">一棵树的四季轮回</h2>
+                <p class="section-desc">认养一棵树，就是认领一年的期待</p>
+            </div>
+            <div class="seasons-grid">
+                <div class="season-card fade-in">
+                    <div class="season-image">
+                        <!-- 图片用途说明：春季白色樱桃花 -->
+                        <img src="image3.jpg" alt="春季樱桃花">
+                        <div class="season-overlay">
+                            <span class="season-label">Spring</span>
+                            <h3 class="season-title">春 · 花开如雪</h3>
+                            <p class="season-desc">四月的风，吹开满园花香</p>
+                        </div>
+                        <span class="season-number">01</span>
+                    </div>
+                </div>
+                <div class="season-card fade-in">
+                    <div class="season-image">
+                        <!-- 图片用途说明：夏季青果 -->
+                        <img src="image4.jpg" alt="夏季青果">
+                        <div class="season-overlay">
+                            <span class="season-label">Early Summer</span>
+                            <h3 class="season-title">夏初 · 青涩待熟</h3>
+                            <p class="season-desc">小青果在阳光下慢慢长大</p>
+                        </div>
+                        <span class="season-number">02</span>
+                    </div>
+                </div>
+                <div class="season-card fade-in">
+                    <div class="season-image">
+                        <!-- 图片用途说明：盛夏成熟樱桃 -->
+                        <img src="image5.jpg" alt="成熟樱桃">
+                        <div class="season-overlay">
+                            <span class="season-label">Mid Summer</span>
+                            <h3 class="season-title">盛夏 · 红宝石挂枝</h3>
+                            <p class="season-desc">六月樱桃红，等你来采摘</p>
+                        </div>
+                        <span class="season-number">03</span>
+                    </div>
+                </div>
+                <div class="season-card fade-in">
+                    <div class="season-image">
+                        <!-- 图片用途说明：包装发货 -->
+                        <img src="image6.jpg" alt="包装发货">
+                        <div class="season-overlay">
+                            <span class="season-label">Delivery</span>
+                            <h3 class="season-title">采摘 · 新鲜速达</h3>
+                            <p class="season-desc">从枝头到舌尖，不超过24小时</p>
+                        </div>
+                        <span class="season-number">04</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Participation Section ==================== -->
+    <section class="participation" id="participation">
+        <div class="container">
+            <div class="participation-header">
+                <span class="section-label">参与方式</span>
+                <h2 class="section-title">与树相伴，乐趣无穷</h2>
+                <p class="section-desc">认养不只是等待，更是全程参与</p>
+            </div>
+            <div class="participation-showcase">
+                <div class="participation-preview fade-in-left">
+                    <div class="preview-header">
+                        <div class="preview-avatar">🌳</div>
+                        <div class="preview-info">
+                            <h4>我的樱桃树</h4>
+                            <p>认养中 · 位置：东区A-12</p>
+                        </div>
+                    </div>
+                    <div class="preview-body">
+                        <div class="preview-card">
+                            <div class="preview-card-title">🍒 树名：希望</div>
+                            <div class="preview-card-content">
+                                品种：美早大樱桃<br>
+                                认养时间：2024年3月<br>
+                                状态：开花中 · 已完成第2次修剪
+                            </div>
+                            <!-- 图片用途说明：樱桃树成长记录照片 -->
+                            <img src="record1.jpg" alt="成长记录" onerror="this.style.display='none'">
+                        </div>
+                        <div class="preview-features">
+                            <div class="preview-feature">
+                                <span class="preview-feature-icon">📅</span>
+                                <span class="preview-feature-text">下次报告：5天后</span>
+                            </div>
+                            <div class="preview-feature">
+                                <span class="preview-feature-icon">📍</span>
+                                <span class="preview-feature-text">位置已标记</span>
+                            </div>
+                            <div class="preview-feature">
+                                <span class="preview-feature-icon">🎁</span>
+                                <span class="preview-feature-text">送礼记录：2次</span>
+                            </div>
+                            <div class="preview-feature">
+                                <span class="preview-feature-icon">🏡</span>
+                                <span class="preview-feature-text">预约探访：待定</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="participation-content fade-in-right">
+                    <h3 class="section-title">这些，都是你的权利</h3>
+                    <p class="participation-intro">
+                        认养一棵樱桃树，意味着你将成为这棵树的主人。给它起名、看它成长、来乡间探访，让这份绿色连接城市与乡村。
+                    </p>
+                    <ul class="participation-list">
+                        <li>
+                            <span class="participation-list-icon">✏️</span>
+                            <span><strong>给树命名</strong> — 赋予它独一无二的名字</span>
+                        </li>
+                        <li>
+                            <span class="participation-list-icon">📸</span>
+                            <span><strong>查看成长记录</strong> — 每月收到专属的成长报告</span>
+                        </li>
+                        <li>
+                            <span class="participation-list-icon">🔔</span>
+                            <span><strong>接收通知</strong> — 开花、结果、采摘，每一个重要时刻都不会错过</span>
+                        </li>
+                        <li>
+                            <span class="participation-list-icon">🚗</span>
+                            <span><strong>现场体验</strong> — 预约来乡间，看看你认养的树</span>
+                        </li>
+                        <li>
+                            <span class="participation-list-icon">🎁</span>
+                            <span><strong>分享果实</strong> — 把樱桃作为礼物送给朋友</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Process Section ==================== -->
+    <section class="process" id="process">
+        <div class="container">
+            <div class="process-header">
+                <span class="section-label">认养流程</span>
+                <h2 class="section-title">简单四步，拥有自己的树</h2>
+                <p class="section-desc">每一步，都有我们贴心相伴</p>
+            </div>
+            <div class="process-timeline">
+                <div class="process-step fade-in">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">🌱</div>
+                    <h3 class="step-title">选择级别</h3>
+                    <p class="step-desc">根据你的期待，选择最合适的认养级别</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">✏️</div>
+                    <h3 class="step-title">给树命名</h3>
+                    <p class="step-desc">为你的樱桃树起一个有意义的名字</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📸</div>
+                    <h3 class="step-title">见证成长</h3>
+                    <p class="step-desc">定期收到专属的成长记录</p>
+                </div>
+                <div class="process-step fade-in">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">🍒</div>
+                    <h3 class="step-title">收获喜悦</h3>
+                    <p class="step-desc">品尝属于自己的新鲜樱桃</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Testimonials Section ==================== -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="testimonials-header">
+                <span class="section-label">用户心声</span>
+                <h2 class="section-title">他们说，这才是远方</h2>
+                <p class="section-desc">听听已经认养的朋友们怎么说</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-quote">
+                        "不是买水果，是在远方拥有一棵树。每次收到报告，就像收到家里的来信，心里暖暖的。"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👩</div>
+                        <div class="author-info">
+                            <h5>张女士</h5>
+                            <p>北京 · 成长认养</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-quote">
+                        "给父母的认养礼物。老两口说，每次看到樱桃树的照片，就想起小时候在老家的日子。"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨</div>
+                        <div class="author-info">
+                            <h5>李先生</h5>
+                            <p>上海 · 臻享认养</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in">
+                    <p class="testimonial-quote">
+                        "带孩子去看了我们认养的树。他给树起了名字，叫'小黑'。这比任何课外书都生动。"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">👨‍👩‍👧</div>
+                        <div class="author-info">
+                            <h5>王先生一家</h5>
+                            <p>深圳 · 成长认养</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CTA Section ==================== -->
+    <section class="cta" id="cta">
+        <!-- 图片用途说明：背景虚化樱桃园 -->
+        <div class="cta-bg">
+            <img src="image7.ipg.png" alt="杨家东庄樱桃园" style="width:100%;height:100%;object-fit:cover;">
+        </div>
+        <div class="cta-overlay"></div>
+        <div class="container cta-content">
+            <h2 class="cta-title">现在认养，让这个夏天<br>更有期待</h2>
+            <p class="cta-desc">
+                认养一棵樱桃树，等一季花开，盼一季果熟<br>
+                远方的树，故乡的情
+            </p>
+            <div class="cta-buttons">
+                <a href="#tiers" class="btn btn-primary btn-pulse" style="background: white; color: var(--cherry-red);">
+                    立即认养我的樱桃树
+                </a>
+                <a href="#contact" class="btn btn-ghost">
+                    了解更多
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FAQ Section ==================== -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="faq-header">
+                <span class="section-label">常见问题</span>
+                <h2 class="section-title">你关心的问题，我们来解答</h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item active fade-in">
+                    <div class="faq-question">
+                        <span>樱桃是怎么配送的？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            我们采用冷链配送，从采摘到送达不超过24小时。樱桃会用专业保鲜包装，确保到你手中依然新鲜。配送范围覆盖全国主要城市，具体可咨询客服。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>如果遇到减产怎么办？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            农业靠天吃饭，我们理解你的担心。我们有多片果园进行风险分散，如果认养的树减产，会从同级别果树中调配，确保你的收获。如果极端减产，我们会提前沟通，提供延期认养或部分退款选项。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>可以申请退款吗？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            认养生效后7天内，如有任何不满，可申请全额退款。超过7天后，根据认养时长按比例退款。我们希望你认养是出于真心喜欢，而不是一时冲动。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>可以到现场看我的树吗？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            当然可以！我们非常欢迎认养人来探访自己的树。建议提前3天预约，我们会有专人带领参观果园，体验采摘，还有农家饭可以品尝。成长认养及以上级别，包含每年一次的免费体验名额。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>认养后多久能收到第一批樱桃？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            樱桃成熟期在每年5-6月。认养成功后，我们会从当年或次年开始配送。具体配送时间会根据当年气候和樱桃成熟情况确定，会提前通知你。
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item fade-in">
+                    <div class="faq-question">
+                        <span>可以转赠认养权吗？</span>
+                        <div class="faq-icon">+</div>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            可以。如果你想把认养的树作为礼物送人，我们可以提供认养权转让服务，转让后新的认养人会继承所有权益，包括树的命名权。
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== Footer ==================== -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <h3>杨家东庄村</h3>
+                    <p>
+                        北京益水青山樱桃种植专业合作社<br>
+                        致力于生态农业发展，用心种植每一棵樱桃树<br>
+                        期待与你，共同守护这片土地
+                    </p>
+                </div>
+                <div class="footer-links">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="#benefits">认养优势</a></li>
+                        <li><a href="#tiers">认养级别</a></li>
+                        <li><a href="#seasons">樱桃四季</a></li>
+                        <li><a href="#process">认养流程</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>联系我们</h4>
+                    <ul>
+                        <li><a href="#">电话：联系客服</a></li>
+                        <li><a href="#">微信：yangjiadong</a></li>
+                        <li><a href="#">地址：北京市平谷区</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 杨家东庄村 · 北京益水青山樱桃种植专业合作社</p>
+                <div class="footer-tags">
+                    <span class="footer-tag">生态农业</span>
+                    <span class="footer-tag">乡村振兴</span>
+                    <span class="footer-tag">樱桃认养</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ==================== JavaScript ==================== -->
+    <script>
+        // 导航栏滚动效果
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // 滚动动画 (Intersection Observer)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // 观察所有动画元素
+        document.querySelectorAll('.fade-in, .fade-in-left, .fade-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ手风琴效果
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                
+                // 关闭所有
+                document.querySelectorAll('.faq-item').forEach(faq => {
+                    faq.classList.remove('active');
+                });
+                
+                // 打开点击的
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 图片懒加载
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+        }
+
+        // 移动端菜单（预留功能）
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        mobileMenuBtn.addEventListener('click', () => {
+            // 可扩展移动端菜单
+            console.log('Mobile menu clicked');
+        });
+
+        // 按钮点击涟漪效果
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+                
+                ripple.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    left: ${x}px;
+                    top: ${y}px;
+                    background: rgba(255,255,255,0.3);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s ease-out;
+                    pointer-events: none;
+                `;
+                
+                this.style.position = 'relative';
+                this.style.overflow = 'hidden';
+                this.appendChild(ripple);
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // 添加涟漪动画样式
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple {
+                to {
+                    transform: scale(4);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // 页面加载完成动画
+        window.addEventListener('load', () => {
+            document.body.classList.add('loaded');
+        });
+
+        // 统计数字动画（当数字可见时）
+        const animateNumbers = () => {
+            document.querySelectorAll('.stat-number').forEach(num => {
+                const text = num.textContent;
+                const match = text.match(/(\d+)/);
+                if (match) {
+                    const target = parseInt(match[0]);
+                    const suffix = text.replace(match[0], '');
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            num.textContent = text;
+                            clearInterval(timer);
+                        } else {
+                            num.textContent = Math.floor(current) + suffix;
+                        }
+                    }, 30);
+                }
+            });
+        };
+
+        // 数字动画触发
+        const statsSection = document.querySelector('.trust-stats');
+        if (statsSection) {
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        animateNumbers();
+                        statsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            statsObserver.observe(statsSection);
+        }
+    </script>
+</body>
+</html>

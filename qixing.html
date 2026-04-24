@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>杨家东庄村短程骑行路线 · 怀柔桥梓镇</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'PingFang SC', 'Microsoft YaHei', sans-serif; background: #eef2f6; color: #1a1a2e; }
+
+    header {
+      background: linear-gradient(120deg, #0d4f3c 0%, #1a7a52 55%, #29b87a 100%);
+      color: #fff; padding: 20px 32px;
+      display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,.2);
+    }
+    .hdr-icon { font-size: 2.6rem; }
+    .hdr-text h1 { font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; }
+    .hdr-text p  { font-size: .85rem; opacity: .82; margin-top: 4px; }
+
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 24px 16px 40px; }
+
+    .sec-title {
+      font-size: 1rem; font-weight: 700; color: #0d4f3c;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .sec-title::before { content:''; display:block; width:4px; height:16px; background:#1a7a52; border-radius:2px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 16px; }
+    .tab-btn {
+      padding: 8px 18px; border: 2px solid #1a7a52; border-radius: 26px;
+      background: #fff; color: #1a7a52; cursor: pointer;
+      font-size: .86rem; font-weight: 600; transition: all .18s;
+    }
+    .tab-btn:hover, .tab-btn.active { background: #1a7a52; color: #fff; box-shadow: 0 3px 10px rgba(26,122,82,.25); }
+
+    /* Map */
+    #map { width:100%; height:560px; border-radius:16px; box-shadow:0 4px 20px rgba(0,0,0,.15); margin-bottom:20px; }
+    /* Layer control style tweak */
+    .leaflet-control-layers { border-radius:10px!important; font-size:.82rem; }
+    .map-tip { font-size:.78rem; color:#666; margin-bottom:10px; display:flex; align-items:center; gap:6px; }
+    .map-tip span { background:#e5f0ff; color:#1148a8; border-radius:6px; padding:2px 8px; font-weight:600; }
+
+    /* Legend */
+    .legend { background:#fff; border-radius:12px; padding:14px 20px; box-shadow:0 2px 8px rgba(0,0,0,.08); margin-bottom:22px; }
+    .legend h4 { font-size:.88rem; color:#555; margin-bottom:10px; }
+    .leg-items { display:flex; gap:20px; flex-wrap:wrap; }
+    .leg-item  { display:flex; align-items:center; gap:7px; font-size:.8rem; color:#333; }
+    .leg-line  { width:32px; height:5px; border-radius:3px; flex-shrink:0; }
+    .leg-dot   { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+
+    /* Cards */
+    .cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px,1fr)); gap:16px; margin-bottom:24px; }
+    .card {
+      background:#fff; border-radius:14px; padding:18px 16px 14px;
+      box-shadow:0 2px 10px rgba(0,0,0,.08);
+      border-top:5px solid #ccc; transition:transform .18s, box-shadow .18s;
+    }
+    .card:hover { transform:translateY(-3px); box-shadow:0 8px 20px rgba(0,0,0,.12); }
+    .card h3 { font-size:.98rem; margin-bottom:9px; }
+    .badges { display:flex; gap:6px; flex-wrap:wrap; margin-bottom:9px; }
+    .badge { display:inline-flex; align-items:center; gap:3px; padding:3px 9px; border-radius:16px; font-size:.72rem; font-weight:600; }
+    .b-green  { background:#e5f7ee; color:#0d6e3f; }
+    .b-blue   { background:#e5f0ff; color:#1148a8; }
+    .b-orange { background:#fff3e0; color:#a35500; }
+    .b-red    { background:#ffecec; color:#a30000; }
+    .card p { font-size:.83rem; color:#555; line-height:1.7; }
+    .wps { margin-top:9px; font-size:.78rem; color:#444; line-height:1.9; }
+    .wps strong { color:#0d4f3c; }
+    .wp { display:inline-block; background:#eef2f6; border-radius:4px; padding:1px 7px; margin:2px 3px 0 0; }
+
+    /* Elevation */
+    .elev-wrap { background:#fff; border-radius:14px; padding:18px 20px; box-shadow:0 2px 10px rgba(0,0,0,.08); margin-bottom:24px; }
+    .elev-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:14px; margin-top:12px; }
+    .elev-card { background:#f7faf7; border-radius:10px; padding:12px 14px; }
+    .elev-title { font-size:.84rem; font-weight:700; margin-bottom:9px; }
+    .elev-bar-wrap { display:flex; align-items:flex-end; gap:2px; height:52px; }
+    .elev-bar { flex:1; border-radius:3px 3px 0 0; min-width:5px; transition:opacity .2s; }
+    .elev-bar:hover { opacity:.7; }
+    .elev-axis { display:flex; justify-content:space-between; font-size:.65rem; color:#aaa; margin-top:3px; }
+    .elev-stats { display:flex; gap:10px; flex-wrap:wrap; margin-top:7px; font-size:.74rem; color:#666; }
+    .elev-stats strong { color:#0d4f3c; }
+
+    /* Tips */
+    .tips { background:#fff; border-radius:14px; padding:18px 22px; box-shadow:0 2px 10px rgba(0,0,0,.08); }
+    .tips h4 { color:#0d4f3c; font-size:.94rem; margin-bottom:10px; }
+    .tips ul { padding-left:16px; }
+    .tips li { font-size:.83rem; color:#555; line-height:1.9; }
+
+    @media(max-width:600px){
+      .hdr-text h1 { font-size:1.1rem; }
+      #map { height:340px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-icon">🚴</div>
+  <div class="hdr-text">
+    <h1>杨家东庄村周边短程骑行路线</h1>
+    <p>北京市怀柔区桥梓镇 · 4条路线 · 每条约8~12km · 适合休闲家庭骑行</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="sec-title">选择路线</div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showRoute(0,this)">🗺 全部路线</button>
+    <button class="tab-btn" onclick="showRoute(1,this)">① 村庄田园环线</button>
+    <button class="tab-btn" onclick="showRoute(2,this)">② 京密渠滨水道</button>
+    <button class="tab-btn" onclick="showRoute(3,this)">③ 怀沙河堤线</button>
+    <button class="tab-btn" onclick="showRoute(4,this)">④ 桥梓古镇探访线</button>
+  </div>
+
+  <div class="map-tip">🛰 当前显示：<span>卫星实景</span> 右上角可切换图层</div>
+  <div id="map"></div>
+
+  <div class="legend">
+    <h4>图例</h4>
+    <div class="leg-items">
+      <div class="leg-item"><div class="leg-line" style="background:#e84040"></div>① 村庄田园环线</div>
+      <div class="leg-item"><div class="leg-line" style="background:#2563eb"></div>② 京密渠滨水道</div>
+      <div class="leg-item"><div class="leg-line" style="background:#16a34a"></div>③ 怀沙河堤线</div>
+      <div class="leg-item"><div class="leg-line" style="background:#d97706"></div>④ 桥梓古镇探访线</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#0d4f3c;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.3)"></div>起点：杨家东庄村</div>
+    </div>
+  </div>
+
+  <div class="sec-title">路线详情</div>
+  <div class="cards">
+
+    <div class="card" style="border-top-color:#e84040">
+      <h3>① 村庄田园环线</h3>
+      <div class="badges">
+        <span class="badge b-blue">🔄 环形</span>
+        <span class="badge b-orange dist-badge">📏 约10km</span>
+        <span class="badge b-orange">⏱ 40~50min</span>
+        <span class="badge b-green">难度 轻松</span>
+      </div>
+      <p>以杨家东庄村为起点，沿村间乡道绕行一圈，穿越桥梓镇周边农田、果园与邻近村落，平坦易行，风景自然质朴，适合全家出行。</p>
+      <div class="wps">
+        <strong>途经：</strong>
+        <span class="wp">杨家东庄</span><span class="wp">北宅村</span><span class="wp">庄户村</span><span class="wp">枣园路段</span><span class="wp">返回起点</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-top-color:#2563eb">
+      <h3>② 京密渠滨水道</h3>
+      <div class="badges">
+        <span class="badge b-blue">↔ 往返</span>
+        <span class="badge b-orange dist-badge">📏 约10km</span>
+        <span class="badge b-orange">⏱ 35~45min</span>
+        <span class="badge b-green">难度 轻松</span>
+      </div>
+      <p>向西南骑至京密引水渠渠堤，沿渠骑行约4km后折返。渠边绿树成荫，水面宁静，全程平坦无坡，是最舒适的休闲路线。</p>
+      <div class="wps">
+        <strong>途经：</strong>
+        <span class="wp">杨家东庄</span><span class="wp">桥梓镇路口</span><span class="wp">京密引水渠渠堤</span><span class="wp">渠边观水点</span><span class="wp">原路返回</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-top-color:#16a34a">
+      <h3>③ 怀沙河堤线</h3>
+      <div class="badges">
+        <span class="badge b-blue">↗ 往返</span>
+        <span class="badge b-orange dist-badge">📏 约9km</span>
+        <span class="badge b-orange">⏱ 40~50min</span>
+        <span class="badge b-orange">难度 轻松+</span>
+      </div>
+      <p>向北骑行至怀沙河入口段，沿河堤小路而行，河水清澈，两岸芦苇、湿地植物繁茂，适合骑行赏景，微有起伏。</p>
+      <div class="wps">
+        <strong>途经：</strong>
+        <span class="wp">杨家东庄</span><span class="wp">怀沙河入口</span><span class="wp">河堤小路</span><span class="wp">湿地观景点</span><span class="wp">原路返回</span>
+      </div>
+    </div>
+
+    <div class="card" style="border-top-color:#d97706">
+      <h3>④ 桥梓古镇探访线</h3>
+      <div class="badges">
+        <span class="badge b-blue">🏘 单程</span>
+        <span class="badge b-orange dist-badge">📏 约11km</span>
+        <span class="badge b-orange">⏱ 45~55min</span>
+        <span class="badge b-green">难度 轻松</span>
+      </div>
+      <p>骑行至桥梓镇老街、上苑艺术馆（桥梓艺术公社），感受京郊人文艺术气息，镇区内有补给商店和餐馆，适合作为骑行目的地。</p>
+      <div class="wps">
+        <strong>途经：</strong>
+        <span class="wp">杨家东庄</span><span class="wp">桥梓镇主路</span><span class="wp">上苑艺术馆</span><span class="wp">桥梓老街</span><span class="wp">镇区补给</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Elevation -->
+  <div class="elev-wrap">
+    <div class="sec-title" style="margin-bottom:0">海拔剖面示意</div>
+    <div class="elev-grid" id="elevGrid"></div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips">
+    <h4>🛡️ 骑行小贴士</h4>
+    <ul>
+      <li>以上路线均在10km左右，骑行时间约40~55分钟，适合休闲出行及亲子骑行。</li>
+      <li>京密渠滨水道和村庄田园环线全程平坦，普通自行车即可胜任。</li>
+      <li>怀沙河堤线部分路段为土路，建议使用山地车或混合车型。</li>
+      <li>桥梓古镇探访线镇区有补给，可在上苑艺术馆附近休息拍照。</li>
+      <li>村道路窄，注意礼让农用车辆及行人；全程建议佩戴头盔。</li>
+      <li>最佳骑行时间：早上7:00—9:00 或 下午4:00—6:30，避开正午日晒。</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+// 杨家东庄村坐标（怀柔区桥梓镇）
+const START = [40.3480, 116.6250];
+
+const map = L.map('map', { zoomControl: true }).setView(START, 15);
+
+// ── 底图图层 ──
+// 1. Esri 卫星实景（全球高清卫星）
+const satellite = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  { attribution: 'Tiles © Esri — Source: Esri, Maxar, GeoEye, Earthstar Geographics', maxZoom: 19 }
+);
+
+// 2. Esri 路网标注（叠加在卫星图上）
+const labels = L.tileLayer(
+  'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}',
+  { attribution: '', maxZoom: 19, opacity: 0.85 }
+);
+
+// 3. OSM 街道图（备选）
+const osm = L.tileLayer(
+  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+  { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
+);
+
+// 默认显示卫星+标注
+satellite.addTo(map);
+labels.addTo(map);
+
+// 图层切换控件
+const baseMaps = {
+  '🛰 卫星实景': satellite,
+  '🗺 街道地图': osm,
+};
+const overlays = {
+  '🏷 地名标注': labels,
+};
+L.control.layers(baseMaps, overlays, { position: 'topright', collapsed: false }).addTo(map);
+
+// 起点图标
+const startIcon = L.divIcon({
+  html: `<div style="background:#0d4f3c;color:#fff;border-radius:50%;width:34px;height:34px;
+         display:flex;align-items:center;justify-content:center;font-size:17px;
+         border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,.45)">🏠</div>`,
+  iconSize:[34,34], iconAnchor:[17,17], className:''
+});
+
+const endIcon = (color) => L.divIcon({
+  html: `<div style="background:${color};color:#fff;border-radius:50%;width:24px;height:24px;
+         display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+         border:2px solid #fff;box-shadow:0 2px 5px rgba(0,0,0,.3)">终</div>`,
+  iconSize:[24,24], iconAnchor:[12,12], className:''
+});
+
+const poiIcon = (e, bg) => L.divIcon({
+  html: `<div style="background:${bg};color:#fff;border-radius:7px;padding:3px 8px;
+         font-size:11.5px;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.22);white-space:nowrap">${e}</div>`,
+  iconAnchor:[0,12], className:''
+});
+
+// ══════════════════════════════════════════════════════════
+// 路线路径点（仅作为 OSRM 规划的途经点，不直接画线）
+// 坐标均选在已知道路节点上，避免穿越水面
+// ══════════════════════════════════════════════════════════
+
+// 杨家东庄村出入口（在村道与外部路交汇处）
+// 桥梓镇真实坐标区域：约 40.345~40.365°N, 116.610~116.650°E
+
+const ROUTE_DEFS = [
+  {
+    color:'#e84040', name:'① 村庄田园环线', diff:'轻松', dash:null,
+    // 沿村道顺时针绕行，途经点均选在路口
+    waypoints:[
+      [40.3482, 116.6248], // 杨家东庄村口
+      [40.3510, 116.6310], // 村东路口
+      [40.3558, 116.6330], // 向北村道
+      [40.3582, 116.6268], // 北侧村路转角
+      [40.3560, 116.6188], // 西北路口
+      [40.3510, 116.6148], // 西侧村道
+      [40.3458, 116.6178], // 西南路口
+      [40.3448, 116.6230], // 南侧返回
+      [40.3482, 116.6248], // 回到起点
+    ]
+  },
+  {
+    color:'#2563eb', name:'② 京密渠滨水道', diff:'轻松', dash:null,
+    // 沿桥梓路向西南，到达京密引水渠渠堤往返
+    waypoints:[
+      [40.3482, 116.6248], // 杨家东庄村口
+      [40.3448, 116.6195], // 桥梓路主路
+      [40.3398, 116.6118], // 桥梓镇路口
+      [40.3348, 116.6032], // 向西南省道
+      [40.3308, 116.5952], // 京密引水渠渠堤路
+    ]
+  },
+  {
+    color:'#16a34a', name:'③ 怀沙河堤线', diff:'轻松+', dash:null,
+    // 沿村北公路向北，至怀沙河沿岸
+    waypoints:[
+      [40.3482, 116.6248], // 杨家东庄村口
+      [40.3528, 116.6255], // 村北路
+      [40.3588, 116.6272], // 进入怀沙河沿线道路
+      [40.3648, 116.6288], // 河堤路
+      [40.3718, 116.6295], // 怀沙河堤中段
+      [40.3788, 116.6282], // 河堤北段观景点
+    ]
+  },
+  {
+    color:'#d97706', name:'④ 桥梓古镇探访线', diff:'轻松', dash:'8 5',
+    // 沿主路向西南至桥梓镇区
+    waypoints:[
+      [40.3482, 116.6248], // 杨家东庄村口
+      [40.3448, 116.6195], // 桥梓路
+      [40.3408, 116.6128], // 镇区北入口
+      [40.3368, 116.6055], // 桥梓镇主街
+      [40.3318, 116.5975], // 上苑艺术馆附近
+      [40.3285, 116.5942], // 桥梓老街终点
+    ]
+  },
+];
+
+const POIS = [
+  { ll:[40.3308, 116.5952], e:'💧 京密引水渠', bg:'#2563eb' },
+  { ll:[40.3788, 116.6282], e:'🌿 怀沙河堤',   bg:'#16a34a' },
+  { ll:[40.3318, 116.5975], e:'🎨 上苑艺术馆', bg:'#7c3aed' },
+  { ll:[40.3368, 116.6055], e:'🏘 桥梓镇区',   bg:'#4b5563' },
+];
+
+// ══════════════════════════════════════════════════════════
+// OSRM 路径规划（自行车模式，沿真实道路）
+// 公共 API: router.project-osrm.org
+// ══════════════════════════════════════════════════════════
+
+const groups   = [[], [], [], [], []];
+const allDrawn = [];
+let   routePolylines = [null, null, null, null]; // 存储各路线 polyline
+let   loadedCount = 0;
+
+// 加载提示
+const loadingDiv = document.createElement('div');
+loadingDiv.id = 'loading-tip';
+loadingDiv.style.cssText = 'position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);' +
+  'background:rgba(0,0,0,.62);color:#fff;padding:10px 22px;border-radius:10px;font-size:.9rem;z-index:9999;pointer-events:none';
+loadingDiv.textContent = '⏳ 正在加载真实路线…';
+document.getElementById('map').style.position = 'relative';
+document.getElementById('map').appendChild(loadingDiv);
+
+async function fetchOSRMRoute(waypoints) {
+  // OSRM 坐标格式：lon,lat;lon,lat;...
+  const coords = waypoints.map(p => `${p[1]},${p[0]}`).join(';');
+  const url = `https://router.project-osrm.org/route/v1/bike/${coords}?overview=full&geometries=geojson`;
+  const res  = await fetch(url);
+  const data = await res.json();
+  if (data.code !== 'Ok') throw new Error('OSRM error: ' + data.code);
+  // GeoJSON geometry: coordinates are [lng, lat]
+  return data.routes[0].geometry.coordinates.map(c => [c[1], c[0]]);
+}
+
+function mTokm(m) { return (m / 1000).toFixed(1) + 'km'; }
+
+async function buildAllRoutes() {
+  // 起点标记
+  L.marker(START, { icon: startIcon })
+    .bindPopup('<b>起点：杨家东庄村</b><br>怀柔区桥梓镇')
+    .addTo(map).openPopup();
+
+  // POI 标记（全局显示）
+  POIS.forEach(p => {
+    const m = L.marker(p.ll, { icon: poiIcon(p.e, p.bg) })
+      .bindPopup(`<b>${p.e.slice(2).trim()}</b>`);
+    groups[0].push(m);
+    allDrawn.push(m);
+    m.addTo(map);
+  });
+
+  const promises = ROUTE_DEFS.map(async (rd, i) => {
+    try {
+      const latlngs = await fetchOSRMRoute(rd.waypoints);
+      const dist = mTokm(latlngs.reduce((acc, pt, j) => {
+        if (j === 0) return acc;
+        const prev = latlngs[j-1];
+        const dx = (pt[1]-prev[1]) * 111320 * Math.cos(pt[0]*Math.PI/180);
+        const dy = (pt[0]-prev[0]) * 111320;
+        return acc + Math.sqrt(dx*dx+dy*dy);
+      }, 0));
+
+      const poly = L.polyline(latlngs, {
+        color: rd.color, weight: 5, opacity: .9, lineJoin: 'round', dashArray: rd.dash
+      }).bindPopup(`<b>${rd.name}</b><br>距离：${dist}　难度：${rd.diff}<br><small>路线已贴合真实道路</small>`);
+
+      const last = latlngs[latlngs.length - 1];
+      const em = L.marker(last, { icon: endIcon(rd.color) })
+        .bindPopup(`<b>${rd.name}</b> 终点`);
+
+      groups[0].push(poly, em);
+      groups[i+1].push(poly, em);
+      allDrawn.push(poly, em);
+      routePolylines[i] = poly;
+
+      poly.addTo(map);
+      em.addTo(map);
+
+      // 更新卡片距离
+      const cards = document.querySelectorAll('.card');
+      if (cards[i]) {
+        const distBadge = cards[i].querySelector('.dist-badge');
+        if (distBadge) distBadge.textContent = '📏 ' + dist;
+      }
+    } catch(err) {
+      console.warn(`路线${i+1}规划失败，使用备用折线`, err);
+      // 降级：画备用虚线
+      const poly = L.polyline(rd.waypoints, {
+        color: rd.color, weight: 4, opacity: .7, dashArray: '6 6'
+      }).bindPopup(`<b>${rd.name}</b>（备用路线，不保证贴合道路）`);
+      groups[0].push(poly);
+      groups[i+1].push(poly);
+      allDrawn.push(poly);
+      poly.addTo(map);
+    }
+  });
+
+  await Promise.all(promises);
+  loadingDiv.remove();
+}
+
+buildAllRoutes();
+
+window.showRoute = function(idx, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  allDrawn.forEach(l => map.removeLayer(l));
+  groups[idx].forEach(l => l.addTo(map));
+  if (idx === 0) {
+    map.setView(START, 15);
+  } else {
+    const poly = routePolylines[idx-1];
+    if (poly && poly.getLatLngs().length > 0) {
+      map.fitBounds(poly.getBounds().pad(0.25));
+    } else {
+      map.fitBounds(L.polyline(ROUTE_DEFS[idx-1].waypoints).getBounds().pad(0.3));
+    }
+  }
+};
+
+// ══════════════════════════════════
+// 海拔剖面（区域内地势平缓，小起伏）
+// ══════════════════════════════════
+const elevData = [
+  {
+    name:'① 村庄田园环线', color:'#e84040',
+    pts:[60,61,62,63,63,62,61,60,59,59,60],
+    minH:57, maxH:66, gain:'+25m', dist:'10km'
+  },
+  {
+    name:'② 京密渠滨水道', color:'#2563eb',
+    pts:[60,59,58,57,56,55,54],
+    minH:52, maxH:62, gain:'+0m(下行)', dist:'10km'
+  },
+  {
+    name:'③ 怀沙河堤线', color:'#16a34a',
+    pts:[60,61,63,65,68,72,76],
+    minH:58, maxH:80, gain:'+45m', dist:'9km'
+  },
+  {
+    name:'④ 桥梓古镇探访线', color:'#d97706',
+    pts:[60,59,58,57,56,55,54],
+    minH:52, maxH:62, gain:'-8m(微降)', dist:'11km'
+  },
+];
+
+const elevGrid = document.getElementById('elevGrid');
+elevData.forEach(e => {
+  const maxV = Math.max(...e.pts), minV = Math.min(...e.pts);
+  const range = maxV - minV || 1;
+  const bars = e.pts.map(v => {
+    const h = Math.max(8, Math.round(((v-minV)/range)*42+8));
+    return `<div class="elev-bar" style="height:${h}px;background:${e.color}" title="${v}m"></div>`;
+  }).join('');
+  elevGrid.innerHTML += `
+    <div class="elev-card">
+      <div class="elev-title" style="color:${e.color}">${e.name}</div>
+      <div class="elev-bar-wrap">${bars}</div>
+      <div class="elev-axis"><span>起点</span><span>→</span><span>终点</span></div>
+      <div class="elev-stats">
+        <span>📏 ${e.dist}</span>
+        <span>⛰ <strong>${e.gain}</strong></span>
+        <span>最低 <strong>${e.minH}m</strong></span>
+        <span>最高 <strong>${e.maxH}m</strong></span>
+      </div>
+    </div>`;
+});
+</script>
+</body>
+</html>

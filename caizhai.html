@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樱桃采摘预约 | 杨家东庄村</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --cherry-red: #E94E77;
+            --cherry-dark: #d43f63;
+            --eco-green: #2E8B57;
+            --green-dark: #1d6b3e;
+            --warm-cream: #FDF8F0;
+            --text-dark: #2C2C2C;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+            --transition: all 0.3s ease;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text-dark); background: var(--bg-light); line-height: 1.7;
+        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+        section { padding: 80px 0; }
+        .section-title {
+            font-size: 2rem; text-align: center; margin-bottom: 50px;
+            color: var(--eco-green); position: relative;
+        }
+        .section-title::after {
+            content: ''; position: absolute; width: 60px; height: 3px;
+            background: var(--cherry-red); bottom: -12px; left: 50%; transform: translateX(-50%);
+        }
+        .btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 14px 36px; border-radius: 50px; font-weight: 500;
+            cursor: pointer; transition: var(--transition); text-decoration: none; border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cherry-red), var(--cherry-dark));
+            color: #fff; box-shadow: 0 8px 25px rgba(233,78,119,0.3);
+        }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 12px 35px rgba(233,78,119,0.4); }
+        .btn-green {
+            background: var(--eco-green); color: #fff;
+            box-shadow: 0 8px 25px rgba(46,139,87,0.3);
+        }
+        .btn-green:hover { transform: translateY(-3px); background: var(--green-dark); }
+        .btn-outline { background: transparent; border: 2px solid; }
+        .btn-back {
+            display: inline-flex; align-items: center; gap: 6px;
+            color: var(--text-light); text-decoration: none; font-size: 0.9rem;
+            transition: var(--transition); margin-bottom: 20px;
+        }
+        .btn-back:hover { color: var(--cherry-red); }
+
+        /* 返回导航条 */
+        .top-bar {
+            background: var(--warm-cream); padding: 14px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .top-bar .container { display: flex; align-items: center; justify-content: space-between; }
+        .top-bar .logo { font-weight: 700; font-size: 1.1rem; color: var(--eco-green); }
+        .top-bar .logo span { color: var(--cherry-red); }
+
+        /* Hero */
+        #hero {
+            min-height: 70vh;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.25)),
+                        url('https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; color: #fff;
+        }
+        .hero-content { max-width: 750px; padding: 20px; }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.15); backdrop-filter: blur(10px);
+            padding: 6px 18px; border-radius: 50px; font-size: 0.85rem;
+            margin-bottom: 24px; border: 1px solid rgba(255,255,255,0.2);
+        }
+        .hero-content h1 { font-size: 3.2rem; font-weight: 700; margin-bottom: 16px; text-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+        .hero-content h1 span { color: var(--cherry-red); }
+        .hero-content p { font-size: 1.2rem; opacity: 0.92; margin-bottom: 36px; font-weight: 300; }
+
+        /* 果园介绍 */
+        .orchard-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center;
+        }
+        .orchard-text h3 { font-size: 1.4rem; color: var(--eco-green); margin-bottom: 20px; font-family: 'Noto Serif SC', serif; }
+        .orchard-text p { color: var(--text-light); margin-bottom: 16px; }
+        .orchard-text .highlight { color: var(--cherry-red); font-weight: 600; }
+        .orchard-stats {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+        }
+        .orchard-stat {
+            background: var(--warm-cream); padding: 20px; border-radius: 12px; text-align: center;
+        }
+        .orchard-stat .num { font-size: 1.6rem; font-weight: 700; color: var(--cherry-red); font-family: 'Noto Serif SC', serif; }
+        .orchard-stat .label { font-size: 0.82rem; color: var(--text-light); margin-top: 4px; }
+        .orchard-img {
+            border-radius: 16px; overflow: hidden; height: 350px;
+            background: url('https://images.unsplash.com/photo-1586776978171-32f9c57d7f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
+            background-size: cover; background-position: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        /* 套餐 */
+        .ticket-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
+        }
+        .ticket-card {
+            background: #fff; border-radius: 18px; padding: 40px 28px;
+            text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+            transition: var(--transition); position: relative;
+            border: 2px solid transparent;
+        }
+        .ticket-card:hover { transform: translateY(-8px); box-shadow: 0 15px 40px rgba(0,0,0,0.1); }
+        .ticket-card.featured {
+            border-color: var(--cherry-red);
+            box-shadow: 0 10px 30px rgba(233,78,119,0.12);
+        }
+        .ticket-card.featured::before {
+            content: '推荐'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+            background: var(--cherry-red); color: #fff; padding: 3px 16px; border-radius: 10px;
+            font-size: 0.8rem; font-weight: 600;
+        }
+        .ticket-icon { font-size: 2.8rem; margin-bottom: 16px; }
+        .ticket-card h4 { font-size: 1.2rem; color: var(--eco-green); margin-bottom: 8px; }
+        .ticket-card .price { font-size: 2rem; font-weight: 700; color: var(--cherry-red); margin: 16px 0; }
+        .ticket-card .price small { font-size: 0.85rem; color: var(--text-light); font-weight: 400; }
+        .ticket-card ul { list-style: none; margin-bottom: 24px; }
+        .ticket-card ul li { padding: 6px 0; font-size: 0.88rem; color: var(--text-light); }
+        .ticket-card ul li i { color: var(--eco-green); margin-right: 8px; }
+
+        /* 采摘日历 */
+        .calendar-wrap {
+            background: #fff; border-radius: 18px; padding: 50px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06); text-align: center;
+        }
+        .calendar-wrap .big-emoji { font-size: 3.5rem; margin-bottom: 16px; }
+        .calendar-wrap h3 { font-size: 1.3rem; color: var(--eco-green); margin-bottom: 24px; }
+        .season-bar {
+            display: flex; align-items: center; justify-content: center; gap: 0;
+            max-width: 600px; margin: 0 auto 30px; border-radius: 50px; overflow: hidden;
+        }
+        .season-bar .seg {
+            flex: 1; padding: 14px 10px; font-size: 0.85rem; font-weight: 500; text-align: center;
+        }
+        .season-bar .seg.pass { background: #f0f0f0; color: #bbb; }
+        .season-bar .seg.active { background: var(--cherry-red); color: #fff; }
+        .season-bar .seg.upcoming { background: #fef0f3; color: var(--cherry-dark); }
+        .calendar-wrap .note { color: var(--text-light); font-size: 0.9rem; }
+
+        /* 采摘流程 */
+        .flow-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
+        }
+        .flow-card {
+            background: #fff; border-radius: 14px; padding: 30px 20px;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.04);
+            position: relative; transition: var(--transition);
+        }
+        .flow-card:hover { transform: translateY(-5px); }
+        .flow-card .step {
+            width: 32px; height: 32px; background: var(--eco-green); color: #fff;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px; font-weight: 700; font-size: 0.9rem;
+        }
+        .flow-card h4 { margin-bottom: 8px; font-size: 1rem; }
+        .flow-card p { font-size: 0.85rem; color: var(--text-light); }
+
+        /* FAQ */
+        .faq-list { max-width: 700px; margin: 0 auto; }
+        .faq-item {
+            background: #fff; border-radius: 12px; margin-bottom: 12px;
+            overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            cursor: pointer; transition: var(--transition);
+        }
+        .faq-item:hover { box-shadow: 0 5px 18px rgba(0,0,0,0.08); }
+        .faq-q {
+            padding: 18px 22px; display: flex; justify-content: space-between;
+            align-items: center; font-weight: 500; font-size: 0.98rem;
+        }
+        .faq-q .toggle { color: var(--cherry-red); font-size: 1.3rem; transition: transform 0.3s; }
+        .faq-item.open .faq-q .toggle { transform: rotate(45deg); }
+        .faq-a { display: none; padding: 0 22px 18px; font-size: 0.9rem; color: var(--text-light); line-height: 1.8; }
+        .faq-item.open .faq-a { display: block; }
+
+        /* CTA */
+        #cta {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff; text-align: center;
+        }
+        #cta h2 { font-size: 2rem; margin-bottom: 16px; font-family: 'Noto Serif SC', serif; }
+        #cta p { opacity: 0.8; margin-bottom: 32px; font-size: 1.05rem; }
+        #cta .btn-white { background: #fff; color: var(--cherry-red); }
+        #cta .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        /* 页脚 */
+        footer {
+            background: #1a1a2e; color: #fff; padding: 40px 0 24px;
+            text-align: center;
+        }
+        footer a { color: rgba(255,255,255,0.7); text-decoration: none; transition: var(--transition); }
+        footer a:hover { color: var(--cherry-red); }
+        footer .links { margin-bottom: 16px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+        footer p { opacity: 0.5; font-size: 0.82rem; }
+
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .orchard-grid { grid-template-columns: 1fr; gap: 40px; }
+            .orchard-img { height: 250px; }
+            .hero-content h1 { font-size: 2.6rem; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 60px 0; }
+            .hero-content h1 { font-size: 2.2rem; }
+            .calendar-wrap { padding: 30px 20px; }
+            .season-bar { flex-direction: column; border-radius: 12px; }
+            .season-bar .seg { width: 100%; }
+            .ticket-card.featured { transform: none; }
+            .ticket-card.featured:hover { transform: translateY(-8px); }
+        }
+        @media (max-width: 480px) {
+            .hero-content h1 { font-size: 1.8rem; }
+            .section-title { font-size: 1.6rem; }
+            .orchard-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航 -->
+    <div class="top-bar">
+        <div class="container">
+            <a href="杨家东庄村宣传页预览.html" class="btn-back">
+                <i class="fas fa-arrow-left"></i> 返回村庄主页
+            </a>
+            <div class="logo">杨家东庄<span>·</span>采摘</div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section id="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🍒 北京益水青山樱桃种植专业合作社</div>
+            <h1>来杨家东庄，<br>亲手摘下<span>夏天的味道</span></h1>
+            <p>一级水源保护区滋养的樱桃 · 清晨采摘 · 限量预约</p>
+            <div>
+                <a href="#tickets" class="btn btn-primary">查看采摘套餐</a>
+                <a href="#process" class="btn btn-outline" style="border-color:rgba(255,255,255,0.6);color:#fff;margin-left:10px;">采摘流程</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 果园介绍 -->
+    <section id="about">
+        <div class="container">
+            <h2 class="section-title">我们的樱桃园</h2>
+            <div class="orchard-grid">
+                <div class="orchard-text">
+                    <h3>一级水源保护区的自然馈赠</h3>
+                    <p>杨家东庄村位于怀柔水库西北岸，属于<span class="highlight">一级水源保护区</span>。得天独厚的生态环境和清澈的水质，孕育出了品质出众的樱桃。</p>
+                    <p>2008年，村集体成立了北京益水青山樱桃种植专业合作社，经过十六年发展，如今已拥有<span class="highlight">150亩</span>标准化樱桃园、<span class="highlight">8000余棵</span>樱桃树，种植美早、黑珍珠、红灯、大水晶等10余个优良品种。</p>
+                    <p>合作社坚持生态种植方式，产品已进入市级超市，深受消费者喜爱。</p>
+                    <div style="margin-top: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
+                        <a href="#tickets" class="btn btn-primary"><i class="fas fa-ticket-alt"></i> 预约采摘</a>
+                        <a href="renyang.html" class="btn btn-outline" style="border-color:var(--eco-green);color:var(--eco-green);">
+                            <i class="fas fa-tree"></i> 认养一棵树
+                        </a>
+                    </div>
+                </div>
+                <div class="orchard-stats">
+                    <div class="orchard-stat">
+                        <div class="num">150亩</div>
+                        <div class="label">标准化樱桃园</div>
+                    </div>
+                    <div class="orchard-stat">
+                        <div class="num">8000+</div>
+                        <div class="label">棵樱桃树</div>
+                    </div>
+                    <div class="orchard-stat">
+                        <div class="num">10+</div>
+                        <div class="label">优良品种</div>
+                    </div>
+                    <div class="orchard-stat">
+                        <div class="num">16年</div>
+                        <div class="label">种植经验</div>
+                    </div>
+                    <div style="grid-column: 1 / -1;">
+                        <div class="orchard-img"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 采摘套餐 -->
+    <section id="tickets" style="background: linear-gradient(180deg, var(--bg-light) 0%, var(--warm-cream) 100%);">
+        <div class="container">
+            <h2 class="section-title">采摘套餐</h2>
+            <div class="ticket-grid">
+                <div class="ticket-card">
+                    <div class="ticket-icon">👤</div>
+                    <h4>单人采摘票</h4>
+                    <div class="price">¥88 <small>起/位</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> 园内不限量品尝</li>
+                        <li><i class="fas fa-check-circle"></i> 可带走1斤樱桃</li>
+                        <li><i class="fas fa-check-circle"></i> 提供采摘工具与包装盒</li>
+                        <li><i class="fas fa-check-circle"></i> 周末及节假日通用</li>
+                    </ul>
+                    <a href="#cta" class="btn btn-outline" style="border-color:var(--cherry-red);color:var(--cherry-red);width:100%;justify-content:center;">立即预约</a>
+                </div>
+                <div class="ticket-card featured">
+                    <div class="ticket-icon">👨‍👩‍👧‍👦</div>
+                    <h4>亲子采摘票</h4>
+                    <div class="price">¥168 <small>起/组</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> 2大1小入园畅吃</li>
+                        <li><i class="fas fa-check-circle"></i> 可带走2斤樱桃</li>
+                        <li><i class="fas fa-check-circle"></i> 儿童专属采摘体验</li>
+                        <li><i class="fas fa-check-circle"></i> 赠送农家小礼品一份</li>
+                    </ul>
+                    <a href="#cta" class="btn btn-primary" style="width:100%;justify-content:center;">立即预约</a>
+                </div>
+                <div class="ticket-card">
+                    <div class="ticket-icon">🏢</div>
+                    <h4>企业团建票</h4>
+                    <div class="price">¥128 <small>起/人</small></div>
+                    <ul>
+                        <li><i class="fas fa-check-circle"></i> 团队入园畅吃</li>
+                        <li><i class="fas fa-check-circle"></i> 每人可带走1斤樱桃</li>
+                        <li><i class="fas fa-check-circle"></i> 可定制团建活动</li>
+                        <li><i class="fas fa-check-circle"></i> 10人以上成团</li>
+                    </ul>
+                    <a href="#cta" class="btn btn-outline" style="border-color:var(--cherry-red);color:var(--cherry-red);width:100%;justify-content:center;">立即预约</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 采摘日历 -->
+    <section id="season">
+        <div class="container">
+            <h2 class="section-title">采摘日历</h2>
+            <div class="calendar-wrap">
+                <div class="big-emoji">🍒</div>
+                <h3>樱桃红了的季节</h3>
+                <div class="season-bar">
+                    <div class="seg pass">🌱 开花期<br><small>4月</small></div>
+                    <div class="seg pass">🌿 青果期<br><small>5月上中旬</small></div>
+                    <div class="seg active">🍒 采摘旺季<br><small>5月下旬 — 6月</small></div>
+                    <div class="seg upcoming">📦 尾季<br><small>7月初</small></div>
+                </div>
+                <p class="note"><i class="fas fa-info-circle"></i> 最佳采摘时间为每年5月下旬至6月下旬，建议提前3天预约。</p>
+                <p class="note" style="margin-top:8px;"><i class="fas fa-clock"></i> 园区营业时间：7:00 — 18:00</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 采摘流程 -->
+    <section id="process" style="background: var(--warm-cream);">
+        <div class="container">
+            <h2 class="section-title">采摘流程</h2>
+            <div class="flow-grid">
+                <div class="flow-card">
+                    <div class="step">1</div>
+                    <h4>选择套餐</h4>
+                    <p>根据人数和需求，选择适合的采摘套餐</p>
+                </div>
+                <div class="flow-card">
+                    <div class="step">2</div>
+                    <h4>提前预约</h4>
+                    <p>电话或在线预约，确认入园时间</p>
+                </div>
+                <div class="flow-card">
+                    <div class="step">3</div>
+                    <h4>到园采摘</h4>
+                    <p>领取工具入园，尽情体验采摘乐趣</p>
+                </div>
+                <div class="flow-card">
+                    <div class="step">4</div>
+                    <h4>满载而归</h4>
+                    <p>装盒带走，把这份甜蜜分享给亲友</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+        <div class="container">
+            <h2 class="section-title">常见问题</h2>
+            <div class="faq-list">
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">采摘季是什么时候？ <span class="toggle">+</span></div>
+                    <div class="faq-a">每年5月下旬至6月下旬为最佳采摘期。其中5月底红灯品种先成熟，6月上旬美早、黑珍珠陆续进入旺季。建议关注合作社公告获取最新成熟信息。</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">需要提前预约吗？ <span class="toggle">+</span></div>
+                    <div class="faq-a">是的，园区实行预约制，建议至少提前3天预约。预约后我们会为您预留入园名额，确保最佳体验。临时到访可能因满员无法接待。</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">可以带小朋友来吗？ <span class="toggle">+</span></div>
+                    <div class="faq-a">非常欢迎！我们设有专门的亲子采摘区，树高度适中，方便小朋友采摘。建议给孩子穿着长袖长裤，做好防蚊虫准备。</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">樱桃可以现摘现吃吗？ <span class="toggle">+</span></div>
+                    <div class="faq-a">当然可以！园内可以畅吃，我们的樱桃采用生态种植，不施化学农药，从树上摘下来就能吃。不过建议简单擦拭后再食用。</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">怎么去杨家东庄村？ <span class="toggle">+</span></div>
+                    <div class="faq-a">导航搜索"杨家东庄村樱桃园"即可。距怀柔城区约10公里，建议自驾前往。公交可乘坐H21路至桥梓镇站后换乘或打车。</div>
+                </div>
+                <div class="faq-item" onclick="toggleFAQ(this)">
+                    <div class="faq-q">可以带宠物吗？ <span class="toggle">+</span></div>
+                    <div class="faq-a">园区暂不接待宠物入园，敬请谅解。如有特殊需求请提前与合作社沟通协调。</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section id="cta">
+        <div class="container">
+            <h2>现在就预约采摘</h2>
+            <p>带上家人朋友，来一级水源保护区，亲手摘下这份限定甜蜜</p>
+            <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+                <a href="tel:010-XXXXXXX" class="btn btn-white btn-primary">
+                    <i class="fas fa-phone-alt"></i> 电话预约
+                </a>
+                <a href="#tickets" class="btn btn-outline" style="border-color:rgba(255,255,255,0.5);color:#fff;">
+                    <i class="fas fa-ticket-alt"></i> 查看套餐
+                </a>
+            </div>
+            <p style="margin-top:24px;font-size:0.9rem;opacity:0.6;"><i class="fas fa-clock"></i> 营业时间：7:00 — 18:00 · 预约热线：010-XXXXXXX</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="links">
+                <a href="杨家东庄村宣传页预览.html"><i class="fas fa-home"></i> 村庄主页</a>
+                <a href="qixing.html"><i class="fas fa-bicycle"></i> 骑行路线</a>
+                <a href="renyang.html"><i class="fas fa-tree"></i> 认养一棵树</a>
+            </div>
+            <p>© 2024 杨家东庄村 · 北京益水青山樱桃种植专业合作社 · AI乡村振兴创业团队</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleFAQ(el) {
+            el.classList.toggle('open');
+        }
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+            a.addEventListener('click', function(e) {
+                var id = this.getAttribute('href');
+                if (id === '#') return;
+                var t = document.querySelector(id);
+                if (t) { e.preventDefault(); window.scrollTo({ top: t.offsetTop - 60, behavior: 'smooth' }); }
+            });
+        });
+    </script>
+</body>
+</html>
